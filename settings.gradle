@@ -1,0 +1,3 @@
+rootProject.name = 'imgur-api-v3-samples'
+
+include ':console:usersub-posts-per-minute'
