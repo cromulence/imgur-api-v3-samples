@@ -23,8 +23,8 @@ import net.cromulence.imgur.apiv3.endpoints.Paginated;
  */
 public class UsersubPpm {
 
-  private static final String IMGUR_CLIENT_ID = "eba7306a1bf043a";
-  private static final String IMGUR_CLIENT_SECRET = "3c352ec750b60e5f8b696273851c601f69ed484c";
+  private static final String IMGUR_CLIENT_ID = "SET THIS";
+  private static final String IMGUR_CLIENT_SECRET = "SET THIS";
 
   public static void main(String[] args) throws Exception {
 
