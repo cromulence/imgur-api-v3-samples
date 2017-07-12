@@ -1,11 +1,6 @@
 dependencies {
-
-  compile libs.datawrapperApi
-  compile libs.datawrapperProperties
-
   compile libs.imgurApiV3
   compile libs.imgurApiV3Util
 
-  compileOnly libs.slf4j
-
+  compile libs.slf4j
 }
