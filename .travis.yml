@@ -1,0 +1,27 @@
+language: java
+jdk:
+- oraclejdk8
+before_install:
+- mkdir /home/travis/zippedBuild
+addons:
+  sonarqube:
+    organization: cromulence
+    token:
+      secure: i2k3Q0kVHVHsX8l8yaq2nzkw6YOf+g5UeblNnJm9Zd/YbS/GTImcjzhdjz0BhbaU16H0CC1y1TYOH/ZzHGKdtVP8p0J1nl5PcrihQK0ObYFMAqWCktnu5dQsGeXhW5y5fKKWiBCTuwJC6LqjMIIx61Qu+H77RQXxdjdDwwnKeKF7kKOdzjhGLvsFqZz6/ebefJXva3kXzxqpH8SU36MpUg6OVijVthEQoE77FUscCQzTscRCTuhPnudfSU2tvMU6KdwpUSN+7jgZrLlP+fLlUXfmJWGYlmoR1a5Y+exYlEiguVzpgr6Eu97GqtRic+BLpSMJE2tuS+BmBtJM0/KqFYSeFfmSvsLHoD4p3iq6eveSeQB3GtlepCXK0fh3c1TJHlYGTTWtzvDWZLgJxqOnfoKwsdzjv4GoOTk4facTAqPFYp7/EXIlG3xDdoaGean6pKdC3SDLa7zkKAHQSKKXiHxLtiW7ysXUtY7CwJSwFS0Uj4eOSJz7xD2K7IBCTUKyh8wqNGJZVmQvUCRaSXi1iERHgJXSsbAT1sFXs3iBuiYI3MnxaOV9QcfGqbh4/5IEAS37BagArf7nlFBoiTSVDkE5sQC9Bj1dnI1sdAnqiLzm18OCkkYrOFJQhd8q5fhXcmBY3hqYqipjDGvRUPzWpe8p3kPsa7QDniIWpMMVk/4=
+script:
+- "./gradlew --stacktrace clean check sourceJar javadocJar"
+- sonar-scanner
+before_deploy:
+- zip -r /home/travis/zippedBuild/${TRAVIS_BUILD_NUMBER}.zip .
+deploy:
+- provider: s3
+  on:
+    all_branches: true
+  upload-dir: output
+  local_dir: "/home/travis/zippedBuild"
+  bucket: cromulence.travis.imgur-api-v3-samples
+  region: eu-west-2
+  skip_cleanup: true
+  access_key_id: AKIAJAAE254CVSJG4RTQ
+  secret_access_key:
+    secure: QDXrHIFV/d4HrG92NrOmg03QvX+aZo4DjnvUrghRfPeDnjS+XlCHNvJZx1xbwPNPlOvEEOSPk1Fx0aZ+sh6V9mXztn4AfGgEzoH9zGwIZbpDk7sbHU9zm4EiYPPyI681RKee92rEJ0M6a1476u/ZiY026ZpPzgJQZI0N8cqmOPlnP+L8A8Ddp1ttWe9HoKJ55EgOrk+ZONCAQ4za1KBQT6pQUVnWk+5Y8a7JRX36CapwG+M5V2X4oxeZ5BZBlsfXJ2SHZDjip3+gMaoz0x5tKKeGMZdJIj4aqO2tXnzYnSHp/Jbyt09Ys3k1X4QQ2JRAI+03HyBj7z3MmjPSLQOp5L5xi/W3cbJ7CB0aza9TiGQqaQKt1FgGKZ+jYDynvo2DsaKOysQpOV/k9HVyQcA4fmUvkeO9K12s32C4pTJCNCfuRjYh0PBYyW6Mv4hiKGkQuO/TmXRfFTbxAMSr0+W1QLwm/hkNPqCjrpu54v8LhOCLmi1P7MNU+hc0HbM8m9tXm56Obhm6BaHpu0n+08JpvjBy6SftkmS4ZF/2AtwfzDivrp9jJqMAGEm4orP7PxBb5JJA0rWuw5ysTBsjr50CSogzPEmfQObSRxt+hj+YYXV5AX2RLpoUUW9Jew7pwXQsJqv8uwLRZOXx+wmrQA/9dm8XsnAELpL5gW5quPIN6B4=
